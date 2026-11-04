@@ -10,17 +10,15 @@ en:
     endpoint_help_html: 'POST JSON with header <code class="rounded bg-zinc-950 px-1.5 py-0.5 font-mono text-xs text-emerald-300/90">Authorization: Bearer &lt;api_token&gt;</code>.'
     endpoint_base_html: 'Use the exact base URL of your Forge deployment (production: <code class="font-mono text-zinc-500">https://forge.1344.fr</code>). The route path is always <code class="font-mono text-zinc-500">/api/v1/send_form</code>.'
     payload: Payload
-    payload_help_html: All keys are optional except you must send a <strong class="text-zinc-300">message</strong> or <strong class="text-zinc-300">body</strong>, or at least one value inside <strong class="text-zinc-300">fields</strong>.
+    payload_help_html: The email body is <strong class="text-zinc-300">fields</strong>, in the order sent. Forge does not add rows. <strong class="text-zinc-300">from_email</strong> is the reply-to address. The subject is “New form from {domain}”. Without fields, <strong class="text-zinc-300">message</strong> or <strong class="text-zinc-300">body</strong> is the content. <strong class="text-zinc-300">attachments</strong> accepts up to 3 base64 JPEGs (<code class="font-mono text-zinc-500">data</code>), 1.2 MB each, added to the email.
     fetch_title: Example (fetch from the browser)
     fetch_help: Prefer a server-side proxy so the API token is not embedded in public JavaScript. Below is a minimal client-only example for development.
     form_title: Example (HTML form + small script)
     form_help_html: Avoids full page navigation to the API. Map your inputs into <code class="font-mono text-zinc-500">message</code> and/or <code class="font-mono text-zinc-500">fields</code>.
     back: "← Back to website"
     mailer:
-      new_message: "New message for %{name}"
+      subject_lead: New form from
       name: Name
       email: Email
-      subject: Subject
       message: Message
-      fallback_subject: "Message from %{domain}"
-      sent_via: Sent via Forge contact API
+      footer: "Sent by La Forge from #1344 Solutions"

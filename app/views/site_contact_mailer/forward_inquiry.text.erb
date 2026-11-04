@@ -1,18 +1,8 @@
-<%= t("contact_form.mailer.new_message", name: @website.name) %> (<%= @website.domain %>)
+<%= t("contact_form.mailer.subject_lead") %> <%= @website.domain %>
 
-<% w = 20 %>
-<% if @from_name.present? %>
-<%= t("contact_form.mailer.name").ljust(w) %> | <%= @from_name %>
-<% end %>
-<% if @from_email.present? %>
-<%= t("contact_form.mailer.email").ljust(w) %> | <%= @from_email %>
-<% end %>
-<% if @inquiry_subject.present? %>
-<%= t("contact_form.mailer.subject").ljust(w) %> | <%= @inquiry_subject %>
-<% end %>
-<%= t("contact_form.mailer.message").ljust(w) %> | <%= @message.presence || t("common.blank") %>
-<% @fields.each do |key, value| %>
-<%= key.to_s.ljust(w) %> | <%= value %>
-<% end %>
+<% @rows.each do |label, value| %>
+<%= label %>
+<%= value.presence || t("common.blank") %>
 
-— <%= t("contact_form.mailer.sent_via") %>
+<% end %>
+— <%= t("contact_form.mailer.footer") %>

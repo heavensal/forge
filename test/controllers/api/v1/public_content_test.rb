@@ -1,8 +1,6 @@
 require "test_helper"
 
 class Api::V1::PublicContentTest < ActionDispatch::IntegrationTest
-  include ActiveJob::TestHelper
-
   setup do
     @website = Website.create!(name: "ARM", domain: "api.example", status: "active")
     @other = Website.create!(name: "Other", domain: "other.example", status: "active")
@@ -160,10 +158,10 @@ class Api::V1::PublicContentTest < ActionDispatch::IntegrationTest
     assert_equal "en", article.locale
   end
 
-  test "contact form enqueues the inquiry email" do
+  test "contact form sends the inquiry email" do
     @website.update!(email: "owner@example.com")
 
-    assert_enqueued_with(job: ActionMailer::MailDeliveryJob) do
+    assert_emails 1 do
       post api_v1_send_form_path,
         params: { message: "Bonjour", from_email: "ada@example.com" },
         headers: @headers,
@@ -172,6 +170,8 @@ class Api::V1::PublicContentTest < ActionDispatch::IntegrationTest
 
     assert_response :created
     assert_equal({ "ok" => true }, JSON.parse(response.body))
-    assert_empty ActionMailer::Base.deliveries
+    mail = ActionMailer::Base.deliveries.last
+    assert_equal [ "owner@example.com" ], mail.to
+    assert_includes mail.text_part.body.to_s, "Bonjour"
   end
 end

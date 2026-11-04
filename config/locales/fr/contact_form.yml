@@ -10,17 +10,15 @@ fr:
     endpoint_help_html: 'POST JSON avec l''en-tête <code class="rounded bg-zinc-950 px-1.5 py-0.5 font-mono text-xs text-emerald-300/90">Authorization: Bearer &lt;api_token&gt;</code>.'
     endpoint_base_html: 'Utilisez l''URL exacte de votre déploiement Forge (production : <code class="font-mono text-zinc-500">https://forge.1344.fr</code>). Le chemin est toujours <code class="font-mono text-zinc-500">/api/v1/send_form</code>.'
     payload: Charge utile
-    payload_help_html: Toutes les clés sont facultatives, sauf qu'il faut envoyer un <strong class="text-zinc-300">message</strong> ou un <strong class="text-zinc-300">body</strong>, ou au moins une valeur dans <strong class="text-zinc-300">fields</strong>.
+    payload_help_html: Le corps du mail reprend <strong class="text-zinc-300">fields</strong> dans l'ordre envoyé. Forge n'ajoute pas de lignes. <strong class="text-zinc-300">from_email</strong> sert d'adresse de réponse. L'objet est « Nouveau formulaire de {domaine} ». Sans fields, le texte de <strong class="text-zinc-300">message</strong> ou <strong class="text-zinc-300">body</strong> est le contenu. <strong class="text-zinc-300">attachments</strong> accepte jusqu'à 3 JPEG en base64 (<code class="font-mono text-zinc-500">data</code>), 1,2 Mo chacun, joints au mail.
     fetch_title: Exemple (fetch depuis le navigateur)
     fetch_help: Préférez un proxy côté serveur pour ne pas exposer le jeton API dans le JavaScript public. Voici un exemple minimal, côté client, pour le développement.
     form_title: Exemple (formulaire HTML + petit script)
     form_help_html: Évite une navigation complète vers l'API. Associez vos champs à <code class="font-mono text-zinc-500">message</code> et/ou <code class="font-mono text-zinc-500">fields</code>.
     back: "← Retour au site"
     mailer:
-      new_message: "Nouveau message pour %{name}"
+      subject_lead: Nouveau formulaire de
       name: Nom
       email: E-mail
-      subject: Sujet
       message: Message
-      fallback_subject: "Message depuis %{domain}"
-      sent_via: Envoyé via l'API de contact Forge
+      footer: "Envoyé par La Forge from #1344 Solutions"

@@ -1,36 +1,62 @@
-<p><strong><%= t("contact_form.mailer.new_message", name: @website.name) %></strong> (<%= h @website.domain %>)</p>
+<% preview = @rows.map { |label, value| "#{label}: #{value}" }.join(" · ").squish.truncate(180) %>
+<div style="display:none;font-size:1px;color:#f4f4f5;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;"><%= h preview %></div>
 
-<table style="border-collapse:collapse;width:100%;max-width:640px;margin-top:16px;font-family:system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.45;color:#111">
-  <tbody>
-    <% if @from_name.present? %>
-    <tr>
-      <td style="vertical-align:top;padding:8px 12px 8px 0;border-bottom:1px solid #e5e5e5;width:36%;font-weight:600;color:#333"><%= t("contact_form.mailer.name") %></td>
-      <td style="vertical-align:top;padding:8px 0;border-bottom:1px solid #e5e5e5;word-break:break-word"><%= h @from_name %></td>
-    </tr>
-    <% end %>
-    <% if @from_email.present? %>
-    <tr>
-      <td style="vertical-align:top;padding:8px 12px 8px 0;border-bottom:1px solid #e5e5e5;font-weight:600;color:#333"><%= t("contact_form.mailer.email") %></td>
-      <td style="vertical-align:top;padding:8px 0;border-bottom:1px solid #e5e5e5;word-break:break-all"><%= h @from_email %></td>
-    </tr>
-    <% end %>
-    <% if @inquiry_subject.present? %>
-    <tr>
-      <td style="vertical-align:top;padding:8px 12px 8px 0;border-bottom:1px solid #e5e5e5;font-weight:600;color:#333"><%= t("contact_form.mailer.subject") %></td>
-      <td style="vertical-align:top;padding:8px 0;border-bottom:1px solid #e5e5e5;word-break:break-word"><%= h @inquiry_subject %></td>
-    </tr>
-    <% end %>
-    <tr>
-      <td style="vertical-align:top;padding:8px 12px 8px 0;border-bottom:1px solid #e5e5e5;font-weight:600;color:#333"><%= t("contact_form.mailer.message") %></td>
-      <td style="vertical-align:top;padding:8px 0;border-bottom:1px solid #e5e5e5;white-space:pre-wrap;word-break:break-word"><%= h(@message.presence || t("common.blank")) %></td>
-    </tr>
-    <% @fields.each do |key, value| %>
-    <tr>
-      <td style="vertical-align:top;padding:8px 12px 8px 0;border-bottom:1px solid #e5e5e5;font-weight:600;color:#333"><%= h key.to_s %></td>
-      <td style="vertical-align:top;padding:8px 0;border-bottom:1px solid #e5e5e5;white-space:pre-wrap;word-break:break-word"><%= h value.to_s %></td>
-    </tr>
-    <% end %>
-  </tbody>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background-color:#f4f4f5;margin:0;padding:0;">
+  <tr>
+    <td align="center" style="padding:28px 16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:separate;max-width:560px;background-color:#ffffff;border:1px solid #e4e4e7;border-radius:16px;overflow:hidden;">
+        <tr>
+          <td align="left" style="background-color:#000000;padding:28px 28px 24px;text-align:left;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+              <tr>
+                <td valign="middle" width="52" style="width:52px;text-align:left;">
+                  <img src="<%= attachments['forge-mark.png'].url %>" width="40" height="40" alt="Forge" style="display:block;width:40px;height:40px;border:0;border-radius:10px;">
+                </td>
+                <td valign="middle" align="left" style="padding-left:12px;text-align:left;">
+                  <div style="font-size:13px;line-height:1.3;color:#a1a1aa;"><%= t("contact_form.mailer.subject_lead") %></div>
+                  <div style="margin-top:2px;font-size:16px;line-height:1.35;font-weight:600;color:#fafafa;word-break:break-all;"><%= h @website.domain %></div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="left" style="padding:8px 28px 12px;text-align:left;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+              <% @rows.each do |label, value| %>
+              <tr>
+                <td align="left" style="padding:16px 0;border-bottom:1px solid #f4f4f5;text-align:left;">
+                  <div style="font-size:12px;line-height:1.3;font-weight:600;color:#71717a;text-align:left;"><%= h label %></div>
+                  <div style="margin-top:6px;font-size:16px;line-height:1.5;color:#18181b;white-space:pre-wrap;word-break:break-word;text-align:left;">
+                    <% if value.blank? %>
+                      <span style="color:#d4d4d8;"><%= t("common.blank") %></span>
+                    <% elsif value.match?(/\A[^@\s]+@[^@\s]+\.[^@\s]+\z/) %>
+                      <a href="mailto:<%= h value %>" style="color:#0f766e;text-decoration:none;"><%= h value %></a>
+                    <% else %>
+                      <%= h value %>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+              <% end %>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="left" style="padding:18px 28px 22px;text-align:left;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+              <tr>
+                <td valign="middle" width="26" style="width:26px;">
+                  <img src="<%= attachments['forge-mark.png'].url %>" width="18" height="18" alt="" style="display:block;width:18px;height:18px;border:0;border-radius:4px;">
+                </td>
+                <td valign="middle" style="padding-left:8px;font-size:12px;line-height:1.4;color:#71717a;">
+                  <%= t("contact_form.mailer.footer") %>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
 </table>
-
-<p style="color:#666;font-size:12px;margin-top:20px"><%= t("contact_form.mailer.sent_via") %></p>
