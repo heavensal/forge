@@ -36,6 +36,10 @@ module Api
           photos: payload[:photos]
         )
         begin
+          # Production leaves raise_delivery_errors off unless MAILER_RAISE_DELIVERY_ERRORS
+          # is set, and that variable is not injected at deploy. Mail then swallows SMTP
+          # errors, so { ok: true } would mean "sent" when nothing was delivered.
+          mail.message.raise_delivery_errors = true
           mail.deliver_now
         rescue StandardError => e
           Rails.logger.error("[SendForm] #{e.class}: #{e.message}")

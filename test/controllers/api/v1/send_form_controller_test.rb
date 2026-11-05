@@ -1,6 +1,19 @@
 require "test_helper"
+require "net/smtp"
 
 class Api::V1::SendFormControllerTest < ActionDispatch::IntegrationTest
+  class SmtpOutage
+    def initialize(*)
+      @settings = {}
+    end
+
+    attr_reader :settings
+
+    def deliver!(*)
+      raise Net::SMTPServerBusy, "421 Service not available"
+    end
+  end
+
   TINY_JPEG = "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA="
 
   setup do
@@ -51,6 +64,22 @@ class Api::V1::SendFormControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :unprocessable_entity
     assert_equal "Send at most 3 photos.", JSON.parse(response.body)["error"]
+  end
+
+  test "does not report success when smtp delivery fails" do
+    previous_raise = ActionMailer::Base.raise_delivery_errors
+    ActionMailer::Base.raise_delivery_errors = false
+    ActionMailer::Base.delivery_method = SmtpOutage
+
+    assert_no_emails do
+      post api_v1_send_form_path, params: { message: "Bonjour" }, headers: @headers, as: :json
+    end
+
+    assert_response :bad_gateway
+    assert_equal "Mail could not be sent. Try again later.", JSON.parse(response.body)["error"]
+  ensure
+    ActionMailer::Base.raise_delivery_errors = previous_raise
+    ActionMailer::Base.delivery_method = :test
   end
 
   test "rejects a file that is not a jpeg" do
