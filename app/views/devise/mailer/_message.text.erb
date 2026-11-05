@@ -1,0 +1,23 @@
+<% paragraphs = Array(paragraphs) %>
+<% notes = Array(local_assigns[:notes]) %>
+<% action_url = local_assigns[:action_url] %>
+<% action_label = local_assigns[:action_label] %>
+<%= t("user.mailer.product") %>
+<%= eyebrow %>
+
+<% paragraphs.each do |paragraph| %>
+<%= paragraph %>
+
+<% end %>
+<% if action_url.present? %>
+<%= action_label %>
+<%= action_url %>
+
+<% end %>
+<% notes.each do |note| %>
+<%= note %>
+
+<% end %>
+—
+<%= t("user.mailer.footer") %>
+<%= t("user.mailer.copyright", year: Time.current.year) %>

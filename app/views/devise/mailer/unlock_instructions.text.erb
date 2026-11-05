@@ -1,0 +1,9 @@
+<%= render "devise/mailer/message",
+      eyebrow: t("user.mailer.unlock_eyebrow"),
+      paragraphs: [
+        t("user.mailer.greeting", name: @resource.name),
+        t("user.mailer.unlock_body")
+      ],
+      action_label: t("user.mailer.unlock_link"),
+      action_url: unlock_url(@resource, unlock_token: @token),
+      notes: [ t("user.mailer.unlock_note") ] %>

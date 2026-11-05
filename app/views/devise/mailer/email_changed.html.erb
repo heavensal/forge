@@ -1,7 +1,17 @@
-<p><%= t("user.mailer.greeting", email: @email) %></p>
-
 <% if @resource.try(:unconfirmed_email?) %>
-  <p><%= t("user.mailer.email_changing", email: @resource.unconfirmed_email) %></p>
+  <%= render "devise/mailer/message",
+        eyebrow: t("user.mailer.email_changing_eyebrow"),
+        paragraphs: [
+          t("user.mailer.greeting", name: @resource.name),
+          t("user.mailer.email_changing_body", email: @resource.unconfirmed_email)
+        ],
+        notes: [ t("user.mailer.email_changing_note") ] %>
 <% else %>
-  <p><%= t("user.mailer.email_changed", email: @resource.email) %></p>
+  <%= render "devise/mailer/message",
+        eyebrow: t("user.mailer.email_changed_eyebrow"),
+        paragraphs: [
+          t("user.mailer.greeting", name: @resource.name),
+          t("user.mailer.email_changed_body", email: @resource.email)
+        ],
+        notes: [ t("user.mailer.email_changed_note") ] %>
 <% end %>
