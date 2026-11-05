@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 # SMTP (mail.1344.fr, port 465 SSL) — enabled when SMTP_ADDRESS is set (see .env.example).
-if ENV["SMTP_ADDRESS"].present?
+# Test stays on the :test delivery method so the suite never sends real mail.
+if ENV["SMTP_ADDRESS"].present? && !Rails.env.test?
   Rails.application.config.action_mailer.delivery_method = :smtp
   Rails.application.config.action_mailer.smtp_settings = {
     address: ENV.fetch("SMTP_ADDRESS"),

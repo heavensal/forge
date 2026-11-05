@@ -8,10 +8,14 @@
     },
     body: JSON.stringify({
       from_email: "client@example.com",
-      from_name: "Jean Client",
-      subject: "Contact site",
-      message: "Message principal",
-      fields: { phone: "0612345678" }
+      fields: {
+        nom: "Jean Client",
+        message: "Message principal",
+        phone: "0612345678"
+      },
+      attachments: [
+        { filename: "photo-1.jpg", content_type: "image/jpeg", data: "<base64>" }
+      ]
     })
   });
 CFETCH
@@ -38,10 +42,12 @@ CFETCH
         Authorization: "Bearer " + TOKEN
       },
       body: JSON.stringify({
-        from_name: fd.get("from_name"),
         from_email: fd.get("from_email"),
-        subject: "Formulaire site",
-        message: fd.get("message")
+        fields: {
+          nom: fd.get("from_name"),
+          email: fd.get("from_email"),
+          message: fd.get("message")
+        }
       })
     });
     if (!res.ok) throw new Error(await res.text());
@@ -75,13 +81,15 @@ CFORM
     <p class="mt-2 text-sm text-zinc-500"><%= t("contact_form.payload_help_html") %></p>
     <pre class="mt-4 overflow-x-auto rounded-lg border border-zinc-800 bg-zinc-950 p-4 font-mono text-xs leading-relaxed text-zinc-300 sm:text-sm" translate="no">{
   "from_email": "visitor@example.com",
-  "from_name": "Marie Dupont",
-  "subject": "Demande depuis arm-services.fr",
-  "message": "Bonjour, je souhaite un devis…",
   "fields": {
-    "phone": "06 12 34 56 78",
-    "service": "Déménagement"
-  }
+    "nom": "Dupont",
+    "email": "visitor@example.com",
+    "téléphone": "06 12 34 56 78",
+    "message": "Bonjour, je souhaite un devis…"
+  },
+  "attachments": [
+    { "filename": "photo-1.jpg", "content_type": "image/jpeg", "data": "<base64>" }
+  ]
 }</pre>
   </div>
 
