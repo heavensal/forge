@@ -95,7 +95,9 @@ class Mcp::OauthControllersTest < ActionDispatch::IntegrationTest
   end
 
   test "a signed-out customer returns to OAuth consent after their normal Forge sign-in" do
-    user = User.create!(name: "Login tester", email: "login-oauth@example.com", password: "password123")
+    user = User.new(name: "Login tester", email: "login-oauth@example.com", password: "password123")
+    user.skip_confirmation!
+    user.save!
     sign_out :user
     redirect_uri = "https://chatgpt.com/connector/oauth/login-flow"
     application = Doorkeeper::Application.create!(name: "ChatGPT", redirect_uri: redirect_uri, scopes: "content:read", confidential: false)

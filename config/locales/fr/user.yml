@@ -14,7 +14,7 @@ fr:
     sign_up: S'inscrire
     sign_up_title: "Inscription — Forge"
     create_account: Créer un compte
-    create_account_hint: Commencez à gérer le contenu de vos sites vitrines.
+    create_account_hint: Commencez à gérer le contenu de vos sites vitrines. Nous vous enverrons un lien pour confirmer votre adresse.
     create_an_account: Créer un compte
     forgot_password: Mot de passe oublié ?
     forgot_title: "Mot de passe oublié — Forge"
@@ -51,20 +51,35 @@ fr:
     resend_unlock_email: Renvoyer l'e-mail de déverrouillage
     sign_in_with: "Se connecter avec %{provider}"
     mailer:
-      greeting: "Bonjour %{email} !"
-      welcome: "Bienvenue %{email} !"
-      reset_body: Quelqu'un a demandé un lien pour changer votre mot de passe. Vous pouvez le faire avec le lien ci-dessous.
-      reset_link: Changer mon mot de passe
-      reset_ignore: Si vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail.
-      reset_unchanged: Votre mot de passe ne changera pas tant que vous n'aurez pas ouvert le lien ci-dessus et choisi un nouveau mot de passe.
-      confirm_body: "Vous pouvez confirmer l'e-mail de votre compte avec le lien ci-dessous :"
+      product: Forge
+      greeting: "Bonjour %{name},"
+      footer: "Envoyé par La Forge from #1344 Solutions"
+      copyright: "© %{year} #1344 Solutions"
+      confirm_eyebrow: Confirmez votre e-mail
+      confirm_body: "Confirmez %{email} pour activer votre compte Forge."
       confirm_link: Confirmer mon compte
-      unlock_body: Votre compte a été verrouillé après un trop grand nombre de tentatives de connexion.
-      unlock_prompt: "Cliquez sur le lien ci-dessous pour déverrouiller votre compte :"
+      confirm_note: Si vous n'avez pas créé de compte Forge, ignorez cet e-mail. Le lien reste valable 3 jours.
+      reconfirm_eyebrow: Confirmez votre nouvelle adresse
+      reconfirm_body: "Confirmez %{email} pour l'utiliser sur votre compte Forge. L'adresse actuelle reste active jusque-là."
+      reconfirm_link: Confirmer ma nouvelle adresse
+      reconfirm_note: Si vous n'êtes pas à l'origine de ce changement, ignorez cet e-mail. Le lien reste valable 3 jours.
+      reset_eyebrow: Réinitialiser le mot de passe
+      reset_body: Une réinitialisation du mot de passe a été demandée pour votre compte Forge. Choisissez-en un nouveau avec le bouton ci-dessous.
+      reset_link: Choisir un nouveau mot de passe
+      reset_note: Si vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail. Votre mot de passe ne change pas tant que vous n'ouvrez pas le lien pour en définir un nouveau. Le lien reste valable 6 heures.
+      unlock_eyebrow: Déverrouiller le compte
+      unlock_body: Votre compte a été verrouillé après trop de tentatives de connexion infructueuses.
       unlock_link: Déverrouiller mon compte
-      email_changing: "Nous vous contactons pour vous informer que votre e-mail est en cours de modification vers %{email}."
-      email_changed: "Nous vous contactons pour vous informer que votre e-mail a été modifié vers %{email}."
-      password_changed: Nous vous contactons pour vous informer que votre mot de passe a été modifié.
+      unlock_note: Si vous n'avez pas essayé de vous connecter, ignorez cet e-mail.
+      email_changing_eyebrow: Changement d'adresse demandé
+      email_changing_body: "Une demande a été faite pour remplacer l'adresse de votre compte Forge par %{email}."
+      email_changing_note: L'adresse actuelle reste utilisée tant que la nouvelle n'est pas confirmée. Si vous n'êtes pas à l'origine de ce changement, ignorez cet e-mail.
+      email_changed_eyebrow: Adresse e-mail modifiée
+      email_changed_body: "L'adresse de votre compte Forge est maintenant %{email}."
+      email_changed_note: Si vous n'êtes pas à l'origine de ce changement, réinitialisez votre mot de passe.
+      password_changed_eyebrow: Mot de passe modifié
+      password_changed_body: Le mot de passe de votre compte Forge vient d'être modifié.
+      password_changed_note: Si vous n'êtes pas à l'origine de ce changement, réinitialisez votre mot de passe immédiatement.
   activerecord:
     models:
       user:

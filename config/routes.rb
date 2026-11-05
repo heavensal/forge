@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   get "/settings/integrations/mcp", to: "mcp/authorizations#index", as: :settings_mcp_authorizations
   delete "/settings/integrations/mcp", to: "mcp/authorizations#destroy", as: :mcp_authorization
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: "users/registrations" }
   patch "locale", to: "locales#update", as: :locale
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

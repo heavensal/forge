@@ -1,4 +1,7 @@
-# Deploy to production (Kamal → VPS) on every push to main.
+# Deploy to production (Kamal → VPS) only after CI succeeds for the commit
+# that is still the tip of main. A failing, cancelled, or superseded run
+# does not deploy. Concurrency is on the job so a skipped run cannot cancel
+# an in-flight deploy (workflow concurrency is applied before this `if`).
 #
 # Required GitHub repository secrets:
 #   SSH_PRIVATE_KEY          — private key for ssh ubuntu@51.75.124.208 (no passphrase, or use ssh-agent with passphrase secret)
@@ -16,15 +19,22 @@ name: Deploy
 # ubuntu-latest is 26.04, which has no prebuilt Ruby 3.3.10. Production uses 3.3.10.
 
 on:
-  push:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
     branches: [main]
-
-concurrency:
-  group: kamal-deploy-production
-  cancel-in-progress: true
 
 jobs:
   deploy:
+    if: |
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      github.event.workflow_run.head_sha == github.sha
+    concurrency:
+      group: kamal-deploy-production
+      cancel-in-progress: true
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     environment: production
@@ -32,6 +42,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1

@@ -1,0 +1,21 @@
+<% if @resource.pending_reconfirmation? %>
+  <%= render "devise/mailer/message",
+        eyebrow: t("user.mailer.reconfirm_eyebrow"),
+        paragraphs: [
+          t("user.mailer.greeting", name: @resource.name),
+          t("user.mailer.reconfirm_body", email: @email)
+        ],
+        action_label: t("user.mailer.reconfirm_link"),
+        action_url: confirmation_url(@resource, confirmation_token: @token),
+        notes: [ t("user.mailer.reconfirm_note") ] %>
+<% else %>
+  <%= render "devise/mailer/message",
+        eyebrow: t("user.mailer.confirm_eyebrow"),
+        paragraphs: [
+          t("user.mailer.greeting", name: @resource.name),
+          t("user.mailer.confirm_body", email: @email)
+        ],
+        action_label: t("user.mailer.confirm_link"),
+        action_url: confirmation_url(@resource, confirmation_token: @token),
+        notes: [ t("user.mailer.confirm_note") ] %>
+<% end %>

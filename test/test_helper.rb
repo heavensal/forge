@@ -36,5 +36,13 @@ end
 module ActionDispatch
   class IntegrationTest
     include Devise::Test::IntegrationHelpers
+
+    def sign_in(resource, scope: nil)
+      if resource.respond_to?(:confirmed?) && !resource.confirmed?
+        resource.skip_confirmation!
+        resource.save!(validate: false)
+      end
+      super
+    end
   end
 end

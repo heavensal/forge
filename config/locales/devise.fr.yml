@@ -16,15 +16,15 @@ fr:
       unconfirmed: "Vous devez confirmer votre adresse e-mail avant de continuer."
     mailer:
       confirmation_instructions:
-        subject: "Instructions de confirmation"
+        subject: "Confirmez votre e-mail Forge"
       reset_password_instructions:
-        subject: "Instructions de réinitialisation du mot de passe"
+        subject: "Réinitialisez votre mot de passe Forge"
       unlock_instructions:
-        subject: "Instructions de déverrouillage"
+        subject: "Déverrouillez votre compte Forge"
       email_changed:
-        subject: "Adresse e-mail modifiée"
+        subject: "Adresse e-mail Forge modifiée"
       password_change:
-        subject: "Mot de passe modifié"
+        subject: "Mot de passe Forge modifié"
     omniauth_callbacks:
       failure: "Authentification impossible via %{kind} : \"%{reason}\"."
       success: "Authentifié avec succès via le compte %{kind}."
